@@ -1,13 +1,13 @@
 #include <iostream>
 #include "spell.h"
-//#include "solution/solution.h"
+
 
 using namespace std;
 
 int main() {
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
+  
   cout << "The frequency of the word 'a' in the corpus is " << frequency("a") << endl;
 
   cout << "The frequency of the word 'the' in the corpus is " << frequency("the") << endl;
@@ -21,7 +21,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 2 ======================" << endl << endl;
-
+  
   cout << "The edit distance between 'an' and 'na' is " << edit_distance("an","na") << endl;
 
   cout << "The edit distance between 'spelling' and 'spelling' is " << edit_distance("spelling","spelling") << endl;
@@ -39,7 +39,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+  /*
   char fixed[MAX_LENGTH];
 
   bool corrected = spell_correct("poetry", fixed);
@@ -73,6 +73,6 @@ int main() {
   cout << "The edit distance between 'korrectud' and 'corrected' is " << edit_distance_bonus("korrectud","corrected") << endl;
 
   cout << "The edit distance between 'nonexistential' and 'nonexistent' is " << edit_distance_bonus("nonexistential","nonexistent") << endl;
-
+  */
   return 0;
 }

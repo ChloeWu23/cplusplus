@@ -1,6 +1,8 @@
-#include <iostream>
-#include "spell.h"
 
-using namespace std;
+/* insert your function declaration here */
+int frequency(const char* word);
 
-/* insert your function definitions here */
+int edit_distance(const char* a, const char* b);
+
+int edit_distance(const char* a, const char* b, int i, int j);
+
