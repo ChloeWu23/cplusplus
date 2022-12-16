@@ -7,7 +7,6 @@
 
 using namespace std;
 
-//const int Max_Length = 80;
 /* insert your function definitions here */
 
 int frequency(const char* target){
@@ -69,7 +68,7 @@ int edit_distance(const char* a, const char* b, int i, int j){
     }
     return min_result;
       }
-
+ 
   return min(min(out[0],out[1]),out[2]);
 
 }
@@ -85,7 +84,7 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
   /**
    *ALgorithm:
    *By checking through the dictionary, lower the lowest distance and raise most_common frequency
-  then the correct one should be lowest distance and highest frequency
+  then the correct one should be lowest distance and highest frequency, if you got same edit distance for two words in the directionary, then you should get the 
   **/
   int most_common = -1;
   while (!in.eof()){
@@ -121,14 +120,32 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
 
 
 
-/*
-int edit_distance_bonus(const char* a, const char* b){
-  //int length_a = strlen(a);
-  //int length_b = strlen(b);
-  
 
-}
-*/
+int edit_distance_bonus(const char* a, const char* b){
+  int length_a = strlen(a);
+  int length_b = strlen(b);
+
+  if (strcmp(a,b) == 0) return 0;
+  if(min(length_a,length_b) == 0) return max(length_a, length_b);
+
+  int out[4]={0,0,0,0};
+
+  out[0] = edit_distance(a+1,b)+1;
+  out[1] = edit_distance(a,b+1)+1;
+  out[2] = edit_distance(a+1,b+1)+ indicator(a[length_a-1],b[length_b-1]);
+  if (length_a >1 && length_b >1 && a[length_a-1] == b[length_b-2] && a[length_a-2] == b[length_b-1]){
+    out[4] = edit_distance(a+2,b+2);
+    int min_result = out[0];
+    for (int k=1 ; k <4; k++){
+      if (out[k] < min_result) {
+	min_result = out[k];
+      }
+      return min_result;
+    }
+  }
+  return min(min(out[0],out[1]),out[2]);
+// }
+
 /**
 //command
 $less words.dat //show less rows of the file

@@ -12,4 +12,5 @@ bool spell_correct(const char* word, char* fixed);
 int indicator(char x, char y);
 
 
-//int edit_distance_bonus(const char* a, const char* b);
+
+int edit_distance_bonus(const char* a, const char* b);
