@@ -29,10 +29,10 @@ int frequency(const char* target){
 
 }
 
-int edit_distance(const char* a, const char* b){
+int edit_distance(const char* a, const char* b,int limit){
   int length_a = strlen(a);
   int length_b = strlen(b);
-  return edit_distance(a,b,length_a, length_b);
+  return edit_distance(a,b,length_a, length_b,0,limit);
 
 }
 
@@ -40,26 +40,25 @@ int indicator(char x, char y){
   return x == y? 0: 1;
 }
 //overload edit_distance
-int edit_distance(const char* a, const char* b, int i, int j){
+int edit_distance(const char* a, const char* b, int i, int j,int total,int limit){
   if (min(i,j) == 0)
     return max(i,j);
-
+  if (total > limit) return limit;
   if (strcmp(a,b) == 0) return 0;
   
-   int out[4]= {0,0,0,0};
+   int out[4]= {0,0,0,Max_Length};
     
-   
-   //int result1,result2,result3,result4;
-  //result1 = edit_distance(a,b,i-1,j)+1;
-  out[0] = edit_distance(a,b,i-1,j)+1;
-  // result2 = edit_distance(a,b,i,j-1)+1;
-  out[1] = edit_distance(a,b,i,j-1)+1;
-  //result3 = edit_distance(a,b,i-1,j-1)+ 1* (a[i-1] != b[j-1]);
-  out[2] = edit_distance(a,b,i-1,j-1) + indicator(a[i-1],b[j-1]);
+ 
+   out[0] = edit_distance(a,b,i-1,j,total+1,limit)+1;
+  
+   out[1] = edit_distance(a,b,i,j-1,total+1,limit)+1;
+
+   int ind = indicator(a[i-1],b[j-1]);
+   out[2] = edit_distance(a,b,i-1,j-1,total+ind,limit) + ind;
   if ( i > 1 && j > 1 && a[i-1] == b[j-2] && a[i-2] == b[j-1]){
-    //result4 = edit_distance(a,b,i-2,j-2)+1;
-    out[3] = edit_distance(a,b,i-2,j-2)+1;
-    //return min(min(min(result1,result2),result3),result4);
+    
+    out[3] = edit_distance(a,b,i-2,j-2,total+1,limit)+1;
+   
     int min_result= out[0];
     for (int k=1 ; k <4; k++){
       if (out[k] < min_result) {
@@ -79,8 +78,7 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
   //int length = strlen(word);
   char enter[Max_Length];
   int number;
-  int distance;
-  int lowest_distance = Max_Length;
+  int lowest_distance = 2;
   /**
    *ALgorithm:
    *By checking through the dictionary, lower the lowest distance and raise most_common frequency
@@ -89,7 +87,7 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
   int most_common = -1;
   while (!in.eof()){
     in >> number >> enter;
-    distance = edit_distance(word, enter);
+    int distance = edit_distance(word, enter,2);
     if (distance == 0){
       strcpy(fixed, enter);
       in.close();
@@ -112,16 +110,15 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
       in.close();
       return true;
     }
-    
-  
-  in.close();
-  return false;
+
+    else{
+      in.close();
+      return false;
+    }
+   
 }
 
-
-
-
-int edit_distance_bonus(const char* a, const char* b){
+int edit_distance_bonus(const char* a,const char* b){
   int length_a = strlen(a);
   int length_b = strlen(b);
 
@@ -129,22 +126,25 @@ int edit_distance_bonus(const char* a, const char* b){
   if(min(length_a,length_b) == 0) return max(length_a, length_b);
 
   int out[4]={0,0,0,0};
+  
+  out[0] = edit_distance_bonus(a+1,b)+1;
+  out[1] = edit_distance_bonus(a,b+1)+1;
+  out[2] = edit_distance_bonus(a+1,b+1)+ 1*(a[0] != b[0]);
 
-  out[0] = edit_distance(a+1,b)+1;
-  out[1] = edit_distance(a,b+1)+1;
-  out[2] = edit_distance(a+1,b+1)+ indicator(a[length_a-1],b[length_b-1]);
-  if (length_a >1 && length_b >1 && a[length_a-1] == b[length_b-2] && a[length_a-2] == b[length_b-1]){
-    out[4] = edit_distance(a+2,b+2);
-    int min_result = out[0];
+  if ( length_a > 1 && length_b > 1 && a[1] == b[0] && a[0] == b[1]){
+    out[3] = edit_distance(a+2,b+2)+1;
+   
+    int min_result= out[0];
     for (int k=1 ; k <4; k++){
       if (out[k] < min_result) {
 	min_result = out[k];
       }
-      return min_result;
     }
+    return min_result;
   }
+
   return min(min(out[0],out[1]),out[2]);
-// }
+ }
 
 /**
 //command

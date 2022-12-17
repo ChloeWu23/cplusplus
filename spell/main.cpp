@@ -37,7 +37,7 @@ int main() {
   cout << "The edit distance between 'nonexistential' and 'nonexistent' is " << edit_distance("nonexistential","nonexistent") << endl;
 
   cout << endl;
-
+  
   cout << "====================== Question 3 ======================" << endl << endl;
   
   char fixed[Max_Length];
@@ -53,12 +53,12 @@ int main() {
   corrected = spell_correct("korrectud", fixed);
   cout << "The corrected spelling of 'korrectud' is '"<< fixed << "'" << endl;
   cout << "The spell checker was " << (corrected ? "" : "NOT ") << "needed."<< endl <<endl;
-
+  
   corrected = spell_correct("nonexistential", fixed);
   cout << "The corrected spelling of 'nonexistential' is '"<< fixed << "'" << endl;
   cout << "The spell checker was " << (corrected ? "" : "NOT ") << "needed."<< endl <<endl;
   
-  cout << "=================== Bonus Question ====================="; 
+  cout << "=================== Bonus Question =====================" << endl; 
   cout << "The edit distance between 'an' and 'na' is " << edit_distance_bonus("an","na") << endl;
   cout << "The edit distance between 'spelling' and 'spelling' is " << edit_distance_bonus("spelling","spelling") << endl;
   
