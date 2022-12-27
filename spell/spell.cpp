@@ -88,33 +88,33 @@ bool spell_correct(const char* word, char fixed[Max_Length]){
   while (!in.eof()){
     in >> number >> enter;
     int distance = edit_distance(word, enter,2);
+    //int distance = edit_distance_bonus(word, enter);
     if (distance == 0){
       strcpy(fixed, enter);
       in.close();
       return false;
     }
-
+    
     if (distance < lowest_distance){
       lowest_distance = distance;
       most_common = number;
       strcpy(fixed, enter);
-    } else if(distance == lowest_distance){
-      if (number >most_common){
+    }else if (distance == lowest_distance){
+      if( number > most_common){
 	most_common = number;
-	strcpy(fixed, enter);
+	strcpy(fixed,enter);
       }
     }
   }
   
-    if (most_common >=0) {
-      in.close();
+  if (most_common >= 0) {
+    in.close();
       return true;
-    }
-
-    else{
-      in.close();
-      return false;
-    }
+  } 
+  else{
+    in.close();
+    return false;
+  }
    
 }
 
