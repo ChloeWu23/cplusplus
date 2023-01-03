@@ -21,7 +21,6 @@ int main() {
   cout << "The soundex coding for 'Jackson' is " << soundex << endl;
 
   // question 2  
-
   cout << "====================== Question 2 ======================" << endl;
 
   cout << "The soundex codes S250 and S255 are ";
@@ -38,10 +37,12 @@ int main() {
 
   cout << "====================== Question 3 ======================" << endl;
 
-  cout << "There are ";
-  cout << count("Leeson", "Linnings, Leasonne, Lesson and Lemon.") << " ";
+   cout << "There are ";
+   cout << count("Leeson", "Linnings, Leasonne, Lesson and Lemon.") << " ";
+ 
   cout << "surnames in the sentence 'Linnings, Leasonne, Lesson and Lemon.'"
-       << endl;
+
+  << endl;
   cout << "  that have the same Soundex encoding as 'Leeson'" << endl;
 
   cout << "There are ";
@@ -49,7 +50,7 @@ int main() {
   cout << " surnames in the sentence 'Jakes, Jaxin, J acksin, Jones.'" 
        << endl;
   cout << "  that have the same Soundex encoding as 'Jackson'" << endl << endl;
-
+  
   return 0;
 }
 
