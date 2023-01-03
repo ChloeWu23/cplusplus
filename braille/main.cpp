@@ -13,7 +13,7 @@ int main() {
   braille[0] = '\0';
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
+  
   size = encode_character('t', braille);
   cout << "The character 't' encoded in braille is '" << braille << "' (" << size << " characters)" << endl;
 
@@ -41,7 +41,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+ 
   print_braille("Hello!", cout);
 
   cout << endl;
@@ -49,6 +49,6 @@ int main() {
   print_braille("S-Club7?", cout);
 
   cout << endl;
-
+ 
   return 0;
 }
