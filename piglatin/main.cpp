@@ -10,7 +10,7 @@ int main() {
   /* QUESTION 1 */
 
   cout << "====================== Question 1 ======================" << endl;
-
+  
   int vowel;
 
   vowel = findFirstVowel("Passionfruit");
@@ -27,7 +27,7 @@ int main() {
   cout << endl;
 
   /* QUESTION 2 */
-
+  
   cout << "====================== Question 2 ======================" << endl;
 
   char translated[100];
@@ -41,17 +41,17 @@ int main() {
   translateWord("Yellow", translated);
   cout << "In Pig Latin 'Yellow' is '" << translated << "'." << endl;
   cout << endl;
-
+ 
   /* QUESTION 3 */
-  
+ 
   cout << "====================== Question 3 ======================" << endl;
-
+  
   cout << "The file 'fruit.txt' translated into Pig Latin is:" << endl << endl;
   ifstream input;
   input.open("fruit.txt");
   translateStream(input, cout);
   input.close();
   cout << endl;
-
+ 
   return 0;
 }
