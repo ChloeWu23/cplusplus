@@ -8,7 +8,6 @@ using namespace std;
 int main() {
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
   cout << "Tile score for 'P' is " << tile_score('P') << endl;
   cout << "Tile score for 'i' is " << tile_score('i') << endl;
   cout << "Tile score for 'Z' is " << tile_score('Z') << endl;
@@ -18,7 +17,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 2 ======================" << endl << endl;
-
+ 
   char played_tiles[80];
 
   bool success = can_form_word_from_tiles("LEAP", "ZLEAP?S", played_tiles);
@@ -51,7 +50,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+  /*
   ScoreModifier sm0[]={NONE, TRIPLE_LETTER_SCORE, NONE, NONE, DOUBLE_WORD_SCORE, NONE, NONE};
 
   int score = compute_score("LEAP", sm0); 
@@ -105,6 +104,6 @@ int main() {
   cout << endl;
 
   cout << "========================= Fin ==========================" << endl << endl;
-  
+  */ 
   return 0;
 }
