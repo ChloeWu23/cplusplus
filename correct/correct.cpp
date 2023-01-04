@@ -161,6 +161,7 @@ int decode(const char* recieved, char* decoded){
   temp[4]= '\0';
   strcat(decoded,temp);
   }
+  
   return error;
 	  }
     
