@@ -36,7 +36,7 @@ int main() {
 endl << endl;
 
   cout << "====================== Question 2 ======================" << endl << endl;
-
+  
   char correct[512]; 
   add_error_correction("0100", correct);
   cout << "0100" << " with error correction bits inserted is: " << endl << correct << endl << endl;
@@ -48,7 +48,7 @@ endl << endl;
   cout << "010000010111001001110100 with error correction bits inserted is: " << endl << correct << endl << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+  
   char decoded[512];
   int errors = 0;
 
@@ -59,14 +59,15 @@ endl << endl;
   strcpy(correct,"1001110");  
   errors = decode(correct, decoded);
   cout << correct << " decoded is " << decoded << " (" << errors << " errors corrected)" << endl << endl;  
-                         
+                       
   strcpy(correct,"100111011010010001110010101000011011001100");  
   errors = decode(correct, decoded);
   cout << correct << " decoded is:" << endl << decoded << " (" << errors << " errors corrected)" << endl;  
   binary_to_text(decoded, text);
   cout << "which as text is '" << text << "'" << endl << endl;  
-
+  
   /* but can you decode this? you can only do it if you do what it says */
+  
   strcpy(correct,"00011000001001010001000001001100110011010011101101111110000101111001101100110010010101010100000000100110010000110101010011001101010100110011");
   errors = decode(correct, decoded);
   cout << correct << " decoded is:" << endl << decoded << " (" << errors << " errors corrected)" << endl;  
