@@ -50,7 +50,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-  /*
+  
   ScoreModifier sm0[]={NONE, TRIPLE_LETTER_SCORE, NONE, NONE, DOUBLE_WORD_SCORE, NONE, NONE};
 
   int score = compute_score("LEAP", sm0); 
@@ -68,7 +68,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 4 ======================" << endl << endl;
-
+  
   ScoreModifier sm1[]={NONE, NONE, DOUBLE_LETTER_SCORE, NONE, NONE, NONE, NONE};
 
   char word[512];
@@ -104,6 +104,6 @@ int main() {
   cout << endl;
 
   cout << "========================= Fin ==========================" << endl << endl;
-  */ 
+  
   return 0;
 }

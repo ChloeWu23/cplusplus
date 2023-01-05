@@ -4,7 +4,7 @@
 #include <cctype>
 #include <fstream>
 #include "scrabble.h"
-
+#include<algorithm>
 using namespace std;
 
 /* insert your function definitions here */
@@ -39,56 +39,128 @@ int tile_score(char tile){
 
 
 
+/*
+ALgorithm:
+convert const char* tiles to string, then it can search the repeated or space from front to end and it can also modify the tiles. after modifying, converting back by using str.c_str()
+
+Note thaT: Once we found the charactetr from word in the tiles we have to remove it from tiles
+*/
+
 bool can_form_word_from_tiles(const char* word, const char* tiles, char* played_tiles){
-
-  if(can_form_word_from_tiles(word,tiles))
-    {
-      // int flag_count = 0;
-      int length = strlen(word);
-      for (int i = 0; word[i]; i++){
-	bool flag = false;
-	for(int j = 0; j < i ; j++){
-	  if (word[j] == word[i]) flag = true;
-	}
-	if (flag == true ) played_tiles[i] = '?';
-	else { played_tiles[i] = word[i];}
-      }
-      played_tiles[length] = '\0';
-      return true;
-      }
-    
-  return false;
-}
-
-bool can_form_word_from_tiles(const char* word, const char* tiles){
-  int flag_count = 0;
-  if (strlen(word) == 0) return true;
-  if (is_repeat(*word,word+1)) {
-    return can_form_word_from_tiles(word+1,tiles) && flag_count == 0;
-  }else{
-    return is_included(*word,tiles,flag_count) && can_form_word_from_tiles(word+1,tiles);
+  //string word_ = word;
+  string tiles_ = tiles;
+  if (strlen(word)==0){
+    *played_tiles = '\0';
+    return true;
   }
-  return false;
-}
 
-  bool is_repeat(char letter,const char* word){
-    for (int i = 0; word[i];i++){
-      if (word[i] == letter) return true;
-    }
+  auto it = find(tiles_.begin(),tiles_.end(), *word);
+  auto question =find(tiles_.begin(),tiles_.end(), '?');
+  auto space = find(tiles_.begin(),tiles_.end(), ' ');
+
+  if (it != tiles_.end()){
+    //word_=word.substr(1);//it starts from position 1 and ends to the end of the string
+    word++;
+    *played_tiles = *it;
+    tiles_.erase(it);
+    const char* tiles1=tiles_.c_str();
+    return can_form_word_from_tiles(word,tiles1,++played_tiles);
+  }
+  else if (space !=tiles_.end()){
+    //word_ = word.substr(1);
+    word++;
+    *played_tiles = *space;
+    tiles_.erase(space);
+    const char* tiles1=tiles_.c_str();
+    return can_form_word_from_tiles(word,tiles1,++played_tiles);
+  }else if (question !=tiles_.end()){
+    // word_ = word.substr(1);
+    word++;
+    *played_tiles = *question;
+    tiles_.erase(question);
+    const char* tiles1=tiles_.c_str();
+    return can_form_word_from_tiles(word,tiles1,++played_tiles);
+  }else{
     return false;
   }
+}
 
-bool is_included(char letter, const char* tiles, int &flag_count){
-  for(int i = 0; tiles[i]; i++){
-    if (tiles[i] == letter)
-      //flag_count++;
-      return true;
-  }
-  
-  for (int i = 0; tiles[i]; i++)
-    if (tiles[i] == ' ' || tiles[i] == '?'){
-      flag_count++;
-      return true;
+/*
+Note: debug here,
+1) if we pass an enum varible to a function, we better pass pointer to the enum thus we can refer to element of the array
+2) we assume played_tiles can be formed from tiles provided, thus once its length is 7 then it use up all the tiles
+*/
+int compute_score(const char* played_tiles, ScoreModifier* sm){
+  int score = 0;
+  bool flag_double = false;
+  bool flag_tripple = false;
+  //bool end = false;
+  for ( int i = 0; played_tiles[i]; i++){
+    int num = tile_score(played_tiles[i]);
+    if (sm[i] == NONE){
+      //num = num;
+      score += num;
     }
-  return false;
+
+    if (sm[i] == DOUBLE_LETTER_SCORE){
+      num *= 2;
+      score += num;
+    }
+
+    if (sm[i] == TRIPLE_LETTER_SCORE){
+      num *= 3;
+      score += num;
+    }
+
+    if (sm[i] == DOUBLE_WORD_SCORE){
+      flag_double = true;
+      score += num;
+    }
+
+    if (sm[i] == TRIPLE_WORD_SCORE){
+      flag_tripple = true;
+      score+= num;
+    }
+  }
+
+  if (flag_double == true) score *= 2;
+  if (flag_tripple == true) score *= 3;
+  
+  //test whether all the tiles has been used
+  if (strlen(played_tiles) ==7)
+    score += 50;
+  return score;
+}
+
+
+/* 
+Algorithm: open the file search for all the words and can see whether can make from tiles and calculate and compare the scores
+ */
+int highest_scoring_word_from_tiles(const char* tiles, ScoreModifier* sm, char* word){
+  int score = 0;
+  ifstream in;
+  in.open("words.txt"); //debug, dont forget open the file first
+  char temp[80];
+  char word_temp[80];
+  if (in.fail()){
+    cerr << "can not open the file" << endl;
+  }
+  while(!in.eof()){
+    //bool flag = false;
+    int num;
+    in >> temp;
+    //if it can be formed from tiles
+    if (can_form_word_from_tiles(temp,tiles,word_temp)){
+      num = compute_score(word_temp,sm);
+      if (num > score){
+	score = num;
+	strcpy(word,word_temp);
+      }
+    }
+  }
+
+  //if no words can be formed
+  if (score == 0) return -1;
+
+  return score;
 }
