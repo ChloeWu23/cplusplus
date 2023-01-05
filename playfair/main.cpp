@@ -9,7 +9,7 @@ int main() {
   // question 1 
 
   cout << "====================== Question 1 ======================" << endl;
-
+ 
   char prepared[100];
   prepare("Come to the Queen's Tower at 7 o'clock!",prepared);
 
@@ -20,7 +20,7 @@ int main() {
   // question 2  
 
   cout << "====================== Question 2 ======================" << endl;
-
+  
   char playfair[6][6];
   grid("IMPERIAL",playfair);
 
@@ -35,7 +35,7 @@ int main() {
   // question 3
 
   cout << "====================== Question 3 ======================" << endl;
-
+  
   char out1, out2;
   bigram(playfair,'C','O',out1,out2);
 
@@ -47,7 +47,7 @@ int main() {
 
   // question 4
   cout << "====================== Question 4 ======================" << endl;
-
+  
   char encoded[100];
   encode(playfair, prepared, encoded);
 
@@ -56,7 +56,7 @@ int main() {
 
   // bonus question (uncomment to attempt)
 
-  /*
+  
   cout << "==================== Bonus Question ====================" << endl;
 
   char decoded[100];
@@ -64,7 +64,7 @@ int main() {
 
   cout << "The string 'VEKVPDQIQDEDEMMVEHSJPVHENOGMIRHVVMEG' decodes as:" << endl;
   cout << "'" << decoded << "'" << endl;
-  */
+  
  
   return 0;
 }
