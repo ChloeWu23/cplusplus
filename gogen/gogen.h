@@ -13,4 +13,9 @@ void delete_words(char **words);
 /* -----------8<-------------8<------------8<--------------8<------------ */
 
 /* add your function prototypes here */
-
+bool get_position(char** board, char ch,int& row, int& col);
+bool valid_solution(char** board,char** word);
+void update(char** board, char ch,Mask &mask);
+void neighbourhood_intersect(Mask one, Mask& two);
+bool solve_board(char** board,char** words);
+bool has_character(char** board,char ch);

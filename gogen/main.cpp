@@ -44,8 +44,7 @@ int main() {
        << endl << endl;
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
-  int row, column;
+    int row, column;
   if (get_position(board, 'B', row, column))
     cout << "'B' found in row " << row << ", column " << column << endl;
   else
@@ -64,11 +63,11 @@ int main() {
   cout << endl;
   
   cout << "====================== Question 2 ======================" << endl << endl;
-
+ 
   char **solution = load_board("solution-easy.txt");
   cout << "Solution in 'solution-easy.txt' is " << (valid_solution(solution, words) ? "valid" : "invalid") << "!" << endl << endl;
   delete_board(solution);
-
+  
   solution = load_board("solution-wrong1.txt");
   cout << "Solution in 'solution-wrong1.txt' is " << (valid_solution(solution, words) ? "valid" : "invalid") << "!" << endl << endl;
   delete_board(solution);
@@ -78,7 +77,7 @@ int main() {
   delete_board(solution);
 
   cout << "====================== Question 3a ======================" << endl << endl;
-
+ 
   Mask x, e, r;
   update(board, 'X', x);
   cout << "Mask for 'X'" << endl;
@@ -96,7 +95,7 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3b ======================" << endl << endl;
-  
+ 
   neighbourhood_intersect(x, e); // from BOXED
                                  //        ^^
   cout << "After neighbourhood intersection, mask for 'E' is " << endl;
@@ -120,7 +119,7 @@ int main() {
   delete_words(words);
   
   cout << "====================== Question 4 ======================" << endl << endl;
-
+  
   const char *puzzle[] = {"easy", "medium", "hard", NULL};
 
   for (int n = 0; puzzle[n] ; n++) {
@@ -143,6 +142,6 @@ int main() {
     delete_words(words);
     cout << endl;
   }
-
+  
   return 0;
 }
