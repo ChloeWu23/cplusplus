@@ -161,5 +161,7 @@ class Mask {
 	answer[r][c] = op(get_element(r,c));
     return answer;
   } 
+	
+	
  
 };
