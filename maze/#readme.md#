@@ -1,0 +1,14 @@
+Important Quesation: q3
+
+Summary for Algrithm:
+How to use another helper function to apply recursion
+
+Note: if a function needs to return a string, the return type better be string instead of char*
+
+String operation:
+
+//amend or prepend string
+string str; char ch;
+str = str+ ch; //add to end
+str = ch+ str; //add to begining
+
