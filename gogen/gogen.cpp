@@ -299,7 +299,7 @@ bool solve_board(char** board, char** words){
   //more solution recursive
   //guess one position row by row, col by col from character A
   //guess from character A+i
-  /*
+  
   for (int i = 0 ; i < 25; i++){
     if (has_character(board,'A'+i)){
       continue;
@@ -320,7 +320,7 @@ bool solve_board(char** board, char** words){
       }
     }
   }
-  */
+ 
     //update mask
   for (int i = 0; i <25; i++){
       update(board,'A'+i,mask[i]);
