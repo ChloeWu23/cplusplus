@@ -34,7 +34,7 @@ int main()
   cout << "SHA1 digest of message 'The bitcoin is under the carpet in the dining room' is:" << endl << digest << endl << endl;
   
   cout << "====================== Question 1 ======================" << endl << endl;
-
+  
   cout << "The number of leading zeros in digest '60eb8db1a3c0ea1ad3d5548f248b4a3e73711ee5' is " << leading_zeros("60eb8db1a3c0ea1ad3d5548f248b4a3e73711ee5") << endl << endl;
 
   cout << "The number of leading zeros in digest '00000a184d72f39730312554e0df25e6f95a05d4' is " << leading_zeros("00000a184d72f39730312554e0df25e6f95a05d4") << endl << endl;
@@ -99,7 +99,7 @@ int main()
   cout << endl;
 
   cout << "====================== Question 4 ======================" << endl << endl;
-
+  
   // valid email
   cout << "Checking email with header " << endl
        << "'wjk@imperial.ac.uk:60eb8db1a3c0ea1ad3d5548f248b4a3e73711ee5:313889'" 
@@ -135,6 +135,6 @@ int main()
     "wjk@imperial.ac.uk:60eb8db1a3c0ea1ad3d5548f248b4a3e73711ee5:875231",
     "message1.txt");
   cout << message_status(result) << endl << endl;
-
+  
   return 0;
 }
