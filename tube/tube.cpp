@@ -130,3 +130,227 @@ Direction string_to_direction(const char *token) {
   }
   return INVALID_DIRECTION;
 }
+
+
+bool get_symbol_position(char** map,int height,int width, char target, int& r, int& c){
+  for (int i = 0; i < height; i++){
+    for (int j = 0; j < width; j++){
+      if (map[i][j] == target){
+	r = i;
+	c = j;
+	return true;
+      }
+      
+    }
+  }
+  r= -1;
+  c =-1;
+  return false;
+}
+
+/*
+debug here: using getline to get the whole line of the file, getline is used for string
+also have to find lines.txt
+ */
+char get_symbol_for_station_or_line(const char* name){
+  ifstream in("stations.txt");
+  if(in.fail()){
+    cout << "fail to open the file" ;
+    return ' ';
+  }
+
+  while(!in.eof()){
+    string s;
+    getline(in,s);
+    if (strcmp(s.c_str()+2,name)==0){
+            return s[0];
+    }
+   
+  }
+  in.close();
+  in.open("lines.txt");
+  if(in.fail()){
+    cout << "cant open the file ";
+    return ' ';
+  }
+  //find from lines.txt
+  while(!in.eof()){
+    string s;
+    getline(in,s);
+    if(strcmp(name,s.c_str()+2)==0)
+      return s[0];
+  }
+  //can not found
+  return ' ';
+}
+
+/*
+my attemp
+int validate_route(char** map, int height, int width, const char* start_station,char* route, char* destination){
+  strcpy(destination," ");
+  //check start station is a valid station
+  char ch = get_symbol_for_station_or_line(start_station);
+  if (!isalnum(ch) || ch == ' '){
+    return -1;
+  }
+
+  //check valid of the route;
+  strcat(route,","); //in order to get the last element of the route
+  char* token = strtok(route, ",");
+  int size = strlen(route);
+  int i = 0; //add control of i here is for last element if we find to the end we stop the loop
+  while(strlen(token) >0 && i < size){
+    i+= strlen(token)+1;
+    string direction = string(token);
+    if (direction != "N" && direction != "S" && direction != "W" && direction != "E" && direction != "NE" && direction != "NW" && direction != "SE" && direction != "SW" ){
+      return -5;
+    }
+    token = strtok(NULL, ",");
+  }
+  
+  //
+  
+  return 1;
+}
+*/
+
+/*
+  others solution for q3
+ */
+
+int validate_route(char** map, int height, int width, const char* start_station, const char\
+* route, char* destination) {
+  int len = strlen(route);
+
+  char traverse[len];
+  int count = 0;
+
+  int row, col;
+  char start;
+  char end;
+
+  int change_count = 0;
+
+  char next_dir[3];
+  char prev_dir[3];
+  strcpy(prev_dir, "");
+
+  strcpy(destination, "");
+
+  start = get_symbol_for_station_or_line(start_station);
+  if (start == ' ' || !(isalnum(start)))
+    return ERROR_START_STATION_INVALID;
+
+  traverse[count] = start;//traverse keep track of the symbol of each step
+
+  get_symbol_position(map, height, width, start, row, col);
+  
+    for (int i = 0; i < len; i++) {
+    int dir = 0;
+
+    next_dir[0] = route[i];
+    dir++;
+
+    if (route[i+1] != ',') {
+      next_dir[1] = route[i+1];
+      i++;
+      dir++;
+    }
+
+    next_dir[dir] = '\0';
+    //here to makr next_dir to be string of each direction in the route
+    i++;
+    //check wehther we go in reverse way
+    if (is_opposite(prev_dir, next_dir)) {
+      if (!(isalnum(map[row][col])))
+        return ERROR_BACKTRACKING_BETWEEN_STATIONS;
+
+    }
+
+    int next = string_to_direction(next_dir);
+
+    switch(next) {
+
+    case(0):
+      row--;
+      break;
+    case(1):
+      row++;
+      break;
+    case(2):
+      col--;
+      break;
+    case(3):
+      col++;
+      break;
+    case(4):
+      row--;
+      col++;
+      break;
+    case(5):
+      row--;
+      col--;
+      break;
+    case(6):
+      row++;
+      col++;
+      break;
+    case(7):
+      row++;
+      col--;
+      break;
+    default:
+      return ERROR_INVALID_DIRECTION;
+    }
+
+    if (row < 0 || row > height || col < 0 || col > width)
+      return ERROR_OUT_OF_BOUNDS;
+
+    count++;
+    traverse[count] = map[row][col];
+
+    // if a line                                                                            
+    if (!isalnum(traverse[count])) {
+      // if previous is also a line and not equal                                           
+      if (!isalnum(traverse[count-1]) && (traverse[count] != traverse[count-1]))
+        return ERROR_LINE_HOPPING_BETWEEN_STATIONS;
+
+      if (isalnum(traverse[count-1]) && (!isalnum(traverse[count-2])) && count > 1)
+        change_count++;
+    }
+    strcpy(prev_dir, next_dir);
+
+  }
+
+  end = map[row][col];
+
+  if (!isalnum(end))
+    return ERROR_ROUTE_ENDPOINT_IS_NOT_STATION;
+
+  count++;
+  traverse[count] = '\0';
+
+  return change_count;
+
+}
+
+bool is_opposite(const char* forwards, const char* backwards) {
+  if ((strcmp(forwards,"N") == 0) && (strcmp(backwards,"S") == 0))
+    return true;
+  if ((strcmp(forwards,"E") == 0) && (strcmp(backwards,"W") == 0))
+    return true;
+  if ((strcmp(forwards,"S") == 0) && (strcmp(backwards,"N") == 0))
+    return true;
+  if ((strcmp(forwards,"W") == 0) && (strcmp(backwards,"W") == 0))
+    return true;
+  if ((strcmp(forwards,"NE") == 0) && (strcmp(backwards,"SW") == 0))
+    return true;
+  if ((strcmp(forwards,"SE") == 0) && (strcmp(backwards,"NW") == 0))
+    return true;
+  if ((strcmp(forwards,"SW") == 0) && (strcmp(backwards,"NE") == 0))
+    return true;
+  if ((strcmp(forwards,"NW") == 0) && (strcmp(backwards,"SE") == 0))
+    return true;
+
+  return false;
+}
