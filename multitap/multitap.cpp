@@ -126,20 +126,31 @@ void encode(const char* plaintext, char* str){
 /*
 void decode(ifstream& in, ostream& out){
   char ch,ch_next;
-  char temp[80];
+char n;
+string temp;
   //when to stop:3 situation
   while(!in.eof()){
-    ch = in.get();
+    ch = in.peek();
     if(ch == '#' || ch == '|'){
-      ch_next=in.get();
-      while(ch_next != '#' && ch_next != '|' && 
-      *temp = ch_next;
-      temp++;
+    in.get(n);
+    ch = in.get();
+    ch_next=in.get();
+//check when to stop
+      while(ch_next != '#' && ch_next != '|' && ch != ch_next){
+      temp += ch_next;   
+      }
+    } else{
+    ch = in.get();
+temp =ch;
+    ch_next = in.get();
+    //check when to stop
+    while(ch_next != '#' && ch_next != '|' && ch != ch_next){
+    temp += ch_next;   
     }
-    
-  ch = in.peek()
+    }
 
-    }
+out << decode(temp.c_str());
+}
 }
 */
 
