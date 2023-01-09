@@ -63,7 +63,7 @@ void grid(const char* codeword, char square[6][6]){
     count++;
   }
   //at end count will be the strlen(codeword)
-  cout <<"count is " << count << endl;
+  //  cout <<"count is " << count << endl;
   //fill in from A to Z
   for (char ch = 'A'; ch <= 'Z' ; ch ++){
     if (!occurs_before(codeword, ch,size)){
@@ -110,9 +110,8 @@ void bigram(const char square[6][6], char char1, char char2, char &out1, char &o
   int col1=find_col(square,char1);
   int row2= find_row(square,char2);
   int col2 = find_col(square,char2);
-  //cout << row1 << col1 << row2 << col2 << endl
+ 
   out1 = square[row1][col2];
-  //cout << "out1 " << out1 << endl;
   out2 = square[row2][col1];
 }
 
@@ -129,11 +128,15 @@ void encode(const char square[6][6], const char* prepared, char* encoded){
       bigram(square,char1,char2,out1,out2);
       *encoded = out1;
       *(encoded+1) = out2;
+      *(encoded+2) = '\0';
       encode(square,prepared+2,encoded+2);
     }
+	/*
   else{
   *encoded= '\0';
   }
+	*/
+	return;
 }
 
 //bunus question
