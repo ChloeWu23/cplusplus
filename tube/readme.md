@@ -2,6 +2,7 @@ Important:
 
 Q2: getline how to use
 
+in.getline(char* temp,int buffer_size); //note it will automatically add sentinel at the end of the temp when the line has no character.
 Q3: logic
 
 Summary for algprithms in Q3:

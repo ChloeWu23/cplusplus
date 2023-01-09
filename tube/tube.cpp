@@ -151,6 +151,8 @@ bool get_symbol_position(char** map,int height,int width, char target, int& r, i
 /*
 debug here: using getline to get the whole line of the file, getline is used for string
 also have to find lines.txt
+
+Debug: in>>num points to the emnpty space, thus we need to get another char to let it move forward to station name
  */
 char get_symbol_for_station_or_line(const char* name){
   ifstream in("stations.txt");
@@ -160,12 +162,22 @@ char get_symbol_for_station_or_line(const char* name){
   }
 
   while(!in.eof()){
-    string s;
+    /*
+string s;
     getline(in,s);
     if (strcmp(s.c_str()+2,name)==0){
             return s[0];
     }
-   
+    */
+    char ch ,temp_ch;
+    char temp[1000];
+    in >> ch;
+    in.get(temp_ch);
+    in.getline(temp,100);
+    if(strcmp(temp,name) == 0){
+      return ch;
+    }
+    
   }
   in.close();
   in.open("lines.txt");
