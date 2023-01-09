@@ -108,6 +108,7 @@ int encode_character(char ch, char* braille){
 /*
 Note: debug:deal with the senel
  */
+/*
 void encode(const char* sentence,char* braille){
   if (*sentence == '\0'){
     *braille = '\0';
@@ -117,6 +118,24 @@ void encode(const char* sentence,char* braille){
     char temp[80];
     encode(sentence+1, temp);
     strcat(braille,temp);
+  }
+  
+}
+*/
+
+//another way
+void encode(const char* sentence,char* braille){
+
+  if (!strlen(sentence)){
+  return;
+    *braille = '\0';
+  }
+  if(*sentence != '\0'){
+    encode_character(*sentence,braille);
+    int size = strlen(braille);
+    braille[size] = '\0';
+        encode(sentence+1, braille+size);
+    
   }
   
 }
