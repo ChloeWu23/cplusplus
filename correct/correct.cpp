@@ -73,12 +73,38 @@ void binary_to_text(const char* binary, char* text){
     strncpy(temp,binary,8);
     temp[8] = '\0';
     *text=binary_to_ascii(temp);
+    *(text+1) = '\0';
       binary_to_text(binary+8,text+1);
     }
+  /*
   else{
     *(text) = '\0';
-  }
+    }*/
 }
+
+/*
+simple solution: do it recursive
+*/
+void add_error_correction(const char* data,char* temp){
+  //get first 4 letters
+  if (!strlen(data)) return;
+  char c1,c2,c3;
+  c1 = parity(data[0],data[1],data[3]);
+  c2 = parity(data[0],data[2],data[3]);
+  c3 = parity(data[1],data[2],data[3]);
+  temp[0] = c1;
+  temp[1] = c2;
+  temp[2]=data[0];
+  temp[3] =c3;
+  temp[4]=data[1];
+  temp[5]=data[2];
+  temp[6]=data[3];
+  temp[8] = '\0';
+  //recursive
+  add_error_correction(data+4,temp+8);
+}
+
+/*
 void add_error_correction(const char* data, char* corrected){
   int size = strlen(data);
   char temp[80];
@@ -104,7 +130,9 @@ void add_error_correction(const char* data, char* corrected){
   }
 
 }
+*/
 
+/* simple version: can use only one function with a default parameter in the header
 char parity(char c1, char c2, char c3){
   int num;
   num = (c1- '0') + (c2 - '0') + (c3 - '0');
@@ -113,7 +141,7 @@ char parity(char c1, char c2, char c3){
   else return '1';
 
 }
-
+*/
 char parity(char c1, char c2, char c3,char c4){
   int num;
   num = (c1- '0') + (c2 - '0') + (c3 - '0')+(c4 -'0');
@@ -128,40 +156,40 @@ did it in a recursive way
 */
 int decode(const char* recieved, char* decoded){
   int error = 0;
+  if (strlen(recieved)){
   strcpy(decoded,"");
-  int size = strlen(recieved); // to see how mant times of 7
   char p1,p2,p3;
   char b[80];
-  for (int i =0; i< size/7;i++){
-    int d=i/7;
+  
     for(int j = 0; j < 7; j++)
-      b[j]=recieved[d+j];
-    
+      b[j]=recieved[j]; 
     b[7] = '\0';
-    // cout << b << endl;
+  
     p1 = parity(b[3],b[4],b[5],b[6]);
     p2 = parity(b[1],b[2],b[5],b[6]);
     p3 = parity(b[0],b[2],b[4],b[6]);
-    // cout << p1 << p2 << p3 << endl;
+    
   //has error
    error=(p1-'0')+(p2-'0')+(p3-'0');
   if (error>0){
     int num= (p3-'0')+2 *(p2-'0')+4*(p1-'0')-1;
-    //cout << "num is "<<num << endl;
     b[num] = (b[num] == '0')? '1': '0';
-    //cout << "b is " << b << endl;
   }
   
   //copy characters
-  char temp[80];
-  temp[0]=b[2];
-  temp[1]=b[4];
-  temp[2]=b[5];
-  temp[3]=b[6];
-  temp[4]= '\0';
-  strcat(decoded,temp);
+  decoded[0]=b[2];
+  decoded[1]=b[4];
+  decoded[2]=b[5];
+  decoded[3]=b[6];
+  decoded[4]= '\0';
+
+  //recursive
+ error+= decode(recieved+7,decoded+4);
   }
+ 
+    return error;
+
+}
   
-  return error;
-	  }
+	 
     
