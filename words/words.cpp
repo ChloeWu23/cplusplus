@@ -3,7 +3,7 @@
 #include<cctype>
 #include"words.h"
 using namespace std;
-
+/*
 void reverse(const char* str1, char* str2){
   //copy string backwards
   int size = strlen(str1);
@@ -11,7 +11,17 @@ void reverse(const char* str1, char* str2){
     str2[size-i-1]= str1[i];
   str2[size] = '\0';
 }
-
+*/
+//do it in a recursive way
+void reverse(const char* str1, char* str2){
+  string str;
+  if(strlen(str1)){
+      char ch = *str1;
+    reverse(str1+1,str2);
+    str = string(str2)+ch;
+    }
+  strcpy(str2,str.c_str());
+}
 bool compare(const char* one, const char* two){
   while (!isalpha(*one) && *one != '\0' ){one ++;}
   while (!isalpha(*two) && *two != '\0' ) {two++;}
@@ -24,6 +34,16 @@ bool compare(const char* one, const char* two){
   return (toupper(*one) == toupper(*two) && compare(one+1,two+1));
 }
 
+/*Simple version of Q3*/
+bool palindrome(const char* sentence){
+  char sentence1[80];
+  //reverse sentence
+  reverse(sentence,sentence1);
+  //compare reversed with original
+  if (compare(sentence,sentence1)) return true;
+  return false;
+}
+
 void ignore(const char* one, char* two){
   int count = 0;
   for (int i = 0; one[i]; i++){
@@ -34,17 +54,20 @@ void ignore(const char* one, char* two){
   }
     two[count] = '\0';
 }
+/*First version*/
+/*
 bool palindrome(const char* sentence){
-  char sentence2 [80];
-  ignore(sentence,sentence2);
+  char sentence1[80],sentence2[80];
+  ignore(sentence,sentence1);
     bool flag = true;
-    int size = strlen(sentence2);
+    int size = strlen(sentence1);
     for (int i = 0; i < size/2; i++){
-      if (sentence2[i] != sentence2[size-1-i])  flag = false;
+      if (sentence1[i] != sentence1[size-1-i])  flag = false;
     }
     return flag;
+    
 }
-
+*/
 /*algorithm:
 First ignore the characters which we dont need
 then by sort the two string from smallest to largest
