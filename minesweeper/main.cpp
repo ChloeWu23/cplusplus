@@ -4,6 +4,7 @@
 #include <cassert>
 #include "minesweeper.h"
 
+//using namespace std;
 using namespace std;
 
 void print_move_result(MoveResult result, char revealed[9][9]) {
@@ -49,7 +50,7 @@ int main() {
   cout << "Done!" << endl << endl;
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
+  
   load_board("partial.dat", revealed);
   display_board(revealed);
   cout << "Game is ";
@@ -65,7 +66,7 @@ int main() {
   cout << "complete." << endl;
   
   cout << "====================== Question 2 ======================" << endl << endl;
-
+  
   load_board("mines.dat", mines);
 
   cout << "Found " << count_mines("A7", mines) << " mine(s) around square 'A7'" << endl;
@@ -75,38 +76,38 @@ int main() {
   cout << "Found " << count_mines("H9", mines) << " mine(s) around square 'H9'" << endl << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+  
   load_board("mines.dat", mines);
   initialise_board(revealed);
   display_board(revealed);
   
-  /* valid move */
+  //valid move 
   cout << "Making move 'B6' results in:" << endl;
   MoveResult result = make_move("B6", mines, revealed);
   print_move_result(result, revealed);
 
-  /* valid move */
+  // valid move 
   cout << "Making move 'E5' results in:" << endl;
   result = make_move("E5", mines, revealed);
   print_move_result(result, revealed);
   
-  /* valid move */
+  //valid move 
   cout << "Making move 'H3*' results in:" << endl;
   result = make_move("H3*", mines, revealed);
   print_move_result(result, revealed);
 
-  /* invalid move */
+  // invalid move 
   cout << "Making move 'Z8' results in:" << endl;
   result = make_move("Z8", mines, revealed);
   print_move_result(result, revealed);
 
-  /* blown up */
+  // blown up 
   cout << "Making move 'A5' results in:" << endl;
   result = make_move("A5", mines, revealed);
   print_move_result(result, revealed);
 
   cout << "====================== Question 4 ======================" << endl << endl;
-
+  
   load_board("mines.dat", mines);
   load_board("partial.dat", revealed);
   display_board(revealed);
