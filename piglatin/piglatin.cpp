@@ -33,6 +33,8 @@ int findFirstVowel(const char* word){
   return -1;
 }
 
+  
+
 void translateWord(const char* english, char* piglatin){
   int position =findFirstVowel(english);
   char english1[80];
@@ -84,12 +86,12 @@ void translateStream(ifstream& in, ostream& out){
   char english[80];
   char temp[80];
   int i = 0;
-  //find the fisrt word in text
+  //find the first word in text
   while(isalnum(in.peek())){
-    english[i]=in.get();
-    i++;
+    english[i++]=in.get();
+    english[i] = '\0';
   }
-  english[i] = '\0';
+  //english[i] = '\0';
  
   translateWord(english,temp);
   out << temp;
