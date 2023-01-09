@@ -103,68 +103,95 @@ void print_board(char **board, int height, int width) {
 }
 
 /* add your own function definitions here */
-
-bool find_laser(char ** board, int height, int width, int& row) {
-  row = -1;
-  if (height <= 0 ) {return false;}
-  for (int i = 0; i < height; ++i) {
-    if (board[i][0] == '>') {
-      row = i;
-      return true;
-    }
-  }
-  return false;
-}
-
-
-char mirror_label(char** board, int height, int width, int row, int column) {
-  // defend possible errors
-  if (height <= 0 || width <= 0) {return '\0';}
-  if (row >= height || column >= width) {return '\0';}
-
-  if (board[row][column] == '\\'  ||
-      board[row][column] == '/') {
-    // when find a mirror, search nearby cell around and return the letter
-    for (int i = -1; i <= 1; ++i) {
-      for (int j = -1; j <= 1; ++j) {
-        if ( (j||i) && isupper(board[row+i][column+j])) {
-          return board[row+i][column+j];
-        }
+//find the leftmost character of '>'
+bool find_laser(char** board, int height, int width, int& row){
+ 
+    for (int i = 0; i < height; i++){
+      if (board[i][0] == '>'){
+	row = i;
+	return true;
       }
     }
+    row = -1;
+    return false;
+
   }
+/*
+Debug here: character '\' has to be expressed as '\\'
+*/
+
+char mirror_label(char** board, int height, int width, int row, int col){
+  //row. col is the coordinate of the mirror
+  //check the validlity of row,col whether it is a mirror
+ 
+  if (board[row][col] != '/' && board[row][col] != '\\') {
+    return '\0';
+  }
+  
+  //check its 3*3 grid has character or not
+  for ( int i = -1; i <= 1;i++){
+    for (int j = -1; j <= 1; j++){
+      int k = row + i;
+      int l = col + j;
+      if ( k >= 0 && k < height && l >= 0 && l < width && (i||j)){
+	if (isalpha(board[k][l]))
+	  return board[k][l];
+      }
+
+    }
+  }
+
+  //cant find
   return '\0';
 }
 
 
-bool shoot(char** board, 
-           int height, 
-           int width, 
-           char* message, 
-           int& last_row, 
-           int& last_col) {
-  // 1. find starting point
-  int pos = 0;
-  *message = '\0';
+bool shoot(char** board, int height,int width,char* message, int& last_row, int& last_col){
+  strcpy(message,"");
+  //find the starting point cordinate
+  //last_row,last_col used to document the position we are moving now
   last_col = 0;
-  if (!find_laser(board, height, width, last_row)) {return false;}
-  // 2. move step by step when not in the end
-  Direction direction = EAST;
-  while (board[last_row][last_col] != '@') {
-    if (!move_step(board, height, width, direction, last_row, last_col)) {
-      return false;
+  bool valid = find_laser(board, height,width,last_row);
+  if (!valid) return false;
+  //otherwise we find the starting point
+  Direction dir = EAST;
+  int count = 0;
+  //loop until not meeting the '@'
+  while(board[last_row][last_col] != '@' &&  move_step(board,height,width,dir,last_row,last_col)){
+    //write message
+    if (board[last_row][last_col] == '/' || board[last_row][last_col] == '\\'){
+    
+      char ch= mirror_label(board,height, width, last_row,last_col);
+      if(ch != '\0'){
+	 /* another way to write message without add count
+	char temp[] = {ch, '\0'};
+	cout << temp;
+	  strcpy(message,temp);
+	  message++;
+	 */
+	   message[count] = ch;
+	   message[count+1] = '\0';
+	   count++;
+      }
     }
-    char label = mirror_label(board, height, width, last_row, last_col);
-    if (label != '\0') {
-      message[pos++] = label;
-      message[pos] = '\0';
-    }
-    if (board[last_row][last_col] == '@') {return true;}
+
+    if(board[last_row][last_col] == '@') return true;
   }
-  return true;
+  return false;
+
 }
 
+/*
+Debug here: forget to draw the line
+*/
 
+/*
+others helper function:
+move_step move one step each time according to the direction and previous coordiante.it changes current coordinate by direction and according to the situation either draw the line
+Need to deal with specific situation, if current position is empty,draw the line
+if current position is mirror, change direction
+if meet '#' out of bound return false
+ */
 bool move_step(char** board, 
                int height, 
                int width, 
@@ -183,6 +210,8 @@ bool move_step(char** board,
     change_direction(dir, board[row][col]);
     return true;
   }
+
+  if(board[row][col] == '@') return true;
   // 4. identify current drawing unit
   char draw;
   if (dir == WEST || dir == EAST) {draw = '-';}
@@ -204,6 +233,7 @@ bool move_step(char** board,
       board[row][col] == '+'){
     return true;
   }
+  
   // 6. if meet ? by default return false
   if (board[row][col] == '?'){return false;}
   return false;
@@ -231,11 +261,17 @@ void change_direction(Direction& dir, char change) {
   }
 }
 
-
+/*
+algorithm:recursive
+Note: we can use a copy board or change board first and change back once it is not solved.
+*/
+//others solution
 bool solve(char** board, int height, int width, char const* target) {
   char message[MAXLEN];
   int last_row, last_col;
   shoot(board, height, width, message, last_row, last_col);
+
+  //situation for recursive function return true
   if (!strcmp(message, target)) {
     return true;
   }
@@ -248,42 +284,63 @@ bool solve(char** board, int height, int width, char const* target) {
   }
 
   // copy the board and do recursion
+  //create a new board
+  /*
   char** board_ = new char*[height];
   for (int i = 0; i < height; ++i) {
     board_[i] = new char[width];
   }
-  int row = last_row; int col = last_col;
+  
   copy_board(board_, board, height, width);
+  */
   // try 3 different ways
   if (board[last_row][last_col] == '?') {
-    last_row = row; last_col = col;
-    board_[last_row][last_col] = '/';
-    if (solve(board_, height, width, target)) {    
+    //last_row = row; last_col = col;
+    board[last_row][last_col] = '/';
+    if (solve(board, height, width, target)) {
+      //if this way can solve, then change the original board with a mirror adde
+      /*
       copy_board(board, board_, height, width);
+      //have to delete the new varaible on the heap
       for (int i = 0; i < height; ++i) {delete [] board_[i];}
+      */
       return true;
     }
-    else {copy_board(board_, board, height, width);}
-    last_row = row; last_col = col;
-    board_[last_row][last_col] = '\\';
-    if (solve(board_, height, width, target)) {    
+    else {
+        board[last_row][last_col] = '?';
+      //copy_board(board_, board, height, width);
+    }
+    
+    board[last_row][last_col] = '\\';
+    if (solve(board, height, width, target)) {
+      /*
       copy_board(board, board_, height, width);
       for (int i = 0; i < height; ++i) {delete [] board_[i] ;}
+      */
       return true;
     }
-    else {copy_board(board_, board, height, width);}
-    last_row = row; last_col = col;
-    board_[last_row][last_col] = ' ';
-    if (solve(board_, height, width, target)) {    
+    else {
+      board[last_row][last_col] = '?';
+      //copy_board(board_, board, height, width);
+    }
+   
+    board[last_row][last_col] = ' ';
+    if (solve(board, height, width, target)) {
+      /*
       copy_board(board, board_, height, width);
       for (int i = 0; i < height; ++i) {delete [] board_[i];}
+      */
       return true;
     }
-    else {copy_board(board_, board, height, width);}
+    else {
+       board[last_row][last_col] = '?';
+      //  copy_board(board_, board, height, width);
+    }
   }
+  /*
   copy_board(board_, board, height, width);
   for (int i = 0; i < height; ++i) {delete [] board_[i];}
-  
+  */
   return false;
 }
 
@@ -295,3 +352,5 @@ void copy_board(char** destination, char** source, int height, int width) {
     }
   }
 }
+
+
