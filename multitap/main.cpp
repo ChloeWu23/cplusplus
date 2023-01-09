@@ -13,7 +13,7 @@ int main() {
   multitap[0] = '\0';
 
   cout << "====================== Question 1 ======================" << endl << endl;
-
+  
   size = encode_character('c', multitap);
   cout << "The character 'c' encoded in multitap is '" << multitap << "' (" << size << " keystrokes)" << endl;
 
@@ -33,11 +33,11 @@ int main() {
   multitap[0] = '\0';
 
   cout << "====================== Question 2 ======================" << endl << endl;
-
+  
   encode("imperial", multitap);
   cout << "The string 'imperial' encoded in multitap is '" << multitap << "'" << endl;
 
-
+  
   encode("cab", multitap);
   cout << "The string 'cab' encoded in multitap is '" << multitap << "'" << endl;
 
@@ -47,13 +47,13 @@ int main() {
   cout << endl;
 
   cout << "====================== Question 3 ======================" << endl << endl;
-
+  /*
   ifstream input("message.txt");
   cout << "The plaintext for the multitap encoded message in 'message.txt' is: " << endl;
   decode(input, cout);
   input.close();
 
   cout << endl;
-
+  */
   return 0;
 }
