@@ -19,21 +19,21 @@ int main() {
   cout << "====================== Question 2 ======================" << endl << endl;
  
   char played_tiles[80];
-
+  
   bool success = can_form_word_from_tiles("LEAP", "ZLEAP?S", played_tiles);
   cout << "The word 'LEAP' " << (success ? "can" : "cannot")
        << " be made from the tiles 'ZLEAP?S'" << endl;
   if (success)
     cout << "Played tiles: " << played_tiles << endl;
   cout << endl;
-
+  
   success = can_form_word_from_tiles("APPLES", "ZLEAP?S", played_tiles);
   cout << "The word 'APPLES' " << (success ? "can" : "cannot")
        << " be made from the tiles 'ZLEAP?S'" << endl;
   if (success)
     cout << "Played tiles: " << played_tiles << endl;
   cout << endl;
-
+  
   success = can_form_word_from_tiles("SPATZLE", "ZLEAP?S", played_tiles);
   cout << "The word 'SPATZLE' " << (success ? "can" : "cannot")
        << " be made from the tiles 'ZLEAP?S'" << endl;
@@ -48,7 +48,7 @@ int main() {
   if (success)
     cout << "Played tiles: " << played_tiles << endl;
   cout << endl;
-
+ 
   cout << "====================== Question 3 ======================" << endl << endl;
   
   ScoreModifier sm0[]={NONE, TRIPLE_LETTER_SCORE, NONE, NONE, DOUBLE_WORD_SCORE, NONE, NONE};

@@ -46,6 +46,7 @@ convert const char* tiles to string, then it can search the repeated or space fr
 Note thaT: Once we found the charactetr from word in the tiles we have to remove it from tiles
 */
 
+/*
 bool can_form_word_from_tiles(const char* word, const char* tiles, char* played_tiles){
   //string word_ = word;
   string tiles_ = tiles;
@@ -84,7 +85,45 @@ bool can_form_word_from_tiles(const char* word, const char* tiles, char* played_
     return false;
   }
 }
+*/
 
+/*another way: dont use include<algorithm> */
+bool can_form_word_from_tiles(const char* word, const char* tiles, char* played_tiles){
+  char tiles1[80]; //this is used to change for recursion
+  strcpy(tiles1,tiles);
+  if (!*word){
+    return true;
+  }
+  
+  char ch = toupper(*word);
+  //find whether we can get ch in the tiles, if we can change this position of the tiles to be 0
+  for (int i = 0; tiles1[i]; i++){
+    if (ch!=tiles1[i]){
+      continue;
+    }
+      *played_tiles = ch;
+      *(played_tiles+1) = '\0';
+      //cout << "played_tiles " << played_tiles << endl;
+      tiles1[i] = '0';
+      //cout << "changed tiles1 is " << tiles1 << endl;
+      return can_form_word_from_tiles(word+1,tiles1,played_tiles+1);
+  }
+  
+ 
+  //if not found this character in the tiles then we can find ? or space
+  
+    for (int i = 0; tiles1[i]; i++){
+      if (tiles1[i] == '?' || tiles1[i] == ' '){
+	*played_tiles = '?';
+	*(played_tiles+1) = '\0';
+	tiles1[i] = '0';
+	return can_form_word_from_tiles(word+1,tiles1,played_tiles+1);
+      }
+    }
+    
+ 
+     return false;
+}
 /*
 Note: debug here,
 1) if we pass an enum varible to a function, we better pass pointer to the enum thus we can refer to element of the array
